@@ -26,7 +26,7 @@ def populate_arena(devices):
 
         shutil.copytree(src, dst)
 
-        print("\t{0}|{1}|{2}".format(prm[0], prm[1], dst))
+        print("\t{0}\t{1}\t{2}".format(prm[0], prm[1], dst))
 
         if len(prm) > 1:
             with open(os.path.join(dst, 'address'), 'w') as address:
