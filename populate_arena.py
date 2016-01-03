@@ -18,14 +18,14 @@ def populate_arena(devices):
     """
 
     for dev,prm in devices.items():
-        assert dev in class_path, 'Unregistered device requested'
+        assert dev in class_path, 'Unregistered device "{0}" requested'.format(dev)
 
         root = os.path.dirname(os.path.realpath(__file__))
         src = os.path.join(root, 'devices', dev)
         dst = os.path.join(root, 'arena', class_path[dev].format(prm[0]))
 
         shutil.copytree(src, dst)
-        
+
         print("\t{0}|{1}".format(prm[0], dst))
 
         if len(prm) > 1:
