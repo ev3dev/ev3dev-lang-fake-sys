@@ -17,10 +17,16 @@ def populate_arena(devices):
     device index/device address.
     """
 
+    root = os.path.dirname(os.path.realpath(__file__))
+
+    os.mkdir(os.path.join(root, 'arena'))
+
+    with open(os.path.join(root, 'arena', 'board-info'), 'w') as binfo:
+        binfo.write('FAKE-SYS\n')
+
     for dev,prm in devices.items():
         assert dev in class_path, 'Unregistered device "{0}" requested'.format(dev)
 
-        root = os.path.dirname(os.path.realpath(__file__))
         src = os.path.join(root, 'devices', dev)
         dst = os.path.join(root, 'arena', class_path[dev].format(prm[0]))
 
