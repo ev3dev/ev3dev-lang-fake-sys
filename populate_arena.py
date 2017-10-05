@@ -18,11 +18,10 @@ def populate_arena(devices):
     """
 
     root = os.path.dirname(os.path.realpath(__file__))
+    src = os.path.join(root, 'devices', 'board-info')
+    dst = os.path.join(root, 'arena', 'board-info')
 
-    os.mkdir(os.path.join(root, 'arena'))
-
-    with open(os.path.join(root, 'arena', 'board-info'), 'w') as binfo:
-        binfo.write('FAKE-SYS\n')
+    shutil.copytree(src, dst)
 
     for dev,prm in devices.items():
         assert dev in class_path, 'Unregistered device "{0}" requested'.format(dev)
