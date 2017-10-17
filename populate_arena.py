@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     devices = {}
     for arg in sys.argv[1:]:
-        dev_idx = arg.split(':')
+        dev_idx = arg.split(':', 1)
         assert len(dev_idx) == 2, 'Incorrect command line parameter: {0}'.format(arg)
         devices[dev_idx[0]] = dev_idx[1].split('@')
 
