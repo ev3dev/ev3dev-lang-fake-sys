@@ -1,0 +1,2 @@
+LEGO_DRIVER_NAME=lego-ev3-l-motor
+LEGO_ADDRESS=ev3-ports:outA
