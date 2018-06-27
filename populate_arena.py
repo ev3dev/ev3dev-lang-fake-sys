@@ -14,8 +14,8 @@ class_path = {
 def populate_arena(devices):
     """
     Copies specified devices to arena.
-    `devices` is a dictionary mapping device name to a tuple of
-    device index/device address.
+    `devices` is an array of tuples containing device types, indices and
+    addresses.
     """
 
     root = os.path.dirname(os.path.realpath(__file__))
@@ -24,19 +24,19 @@ def populate_arena(devices):
 
     shutil.copytree(src, dst)
 
-    for dev,prm in devices.items():
-        assert dev in class_path, 'Unregistered device "{0}" requested'.format(dev)
+    for device in devices:
+        (dev_type, index, address) = device
+        assert dev_type in class_path, 'Unregistered device "{0}" requested'.format(dev_type)
 
-        src = os.path.join(root, 'devices', dev)
-        dst = os.path.join(root, 'arena', class_path[dev].format(prm[0]))
+        src = os.path.join(root, 'devices', dev_type)
+        dst = os.path.join(root, 'arena', class_path[dev_type].format(index))
 
         shutil.copytree(src, dst)
 
-        print("\t{0}\t{1}\t{2}".format(prm[0], prm[1], dst))
+        print("\t{0}\t{1}\t{2}".format(index, address, dst))
 
-        if len(prm) > 1:
-            with open(os.path.join(dst, 'address'), 'w') as address:
-                address.write('{0}\n'.format(prm[1]))
+        with open(os.path.join(dst, 'address'), 'w') as address:
+            address.write('{0}\n'.format(address))
 
 if __name__ == '__main__':
     import sys
@@ -45,10 +45,11 @@ if __name__ == '__main__':
         print('Usage: {0} <device>:<index>@<address> ...'.format(sys.argv[0]))
         sys.exit(1)
 
-    devices = {}
+    devices = []
     for arg in sys.argv[1:]:
         dev_idx = arg.split(':', 1)
         assert len(dev_idx) == 2, 'Incorrect command line parameter: {0}'.format(arg)
-        devices[dev_idx[0]] = dev_idx[1].split('@')
+        location_info = dev_idx[1].split('@')
+        devices.append( (dev_idx[0], location_info[0], location_info[1]) )
 
     populate_arena(devices)
