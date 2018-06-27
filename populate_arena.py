@@ -35,8 +35,8 @@ def populate_arena(devices):
 
         print("\t{0}\t{1}\t{2}".format(index, address, dst))
 
-        with open(os.path.join(dst, 'address'), 'w') as address:
-            address.write('{0}\n'.format(address))
+        with open(os.path.join(dst, 'address'), 'w') as address_file:
+            address_file.write('{0}\n'.format(address))
 
 if __name__ == '__main__':
     import sys
