@@ -24,8 +24,7 @@ def populate_arena(devices):
 
     shutil.copytree(src, dst)
 
-    for device in devices:
-        (dev_type, index, address) = device
+    for dev_type, index, address in devices:
         assert dev_type in class_path, 'Unregistered device "{0}" requested'.format(dev_type)
 
         src = os.path.join(root, 'devices', dev_type)
