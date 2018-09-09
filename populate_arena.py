@@ -2,6 +2,7 @@
 
 import os
 import shutil
+import micropython_patch
 
 # Where to put each device in the arena
 class_path = {
@@ -18,7 +19,7 @@ def populate_arena(devices):
     addresses.
     """
 
-    root = os.path.dirname(os.path.realpath(__file__))
+    root = os.path.dirname(__file__)
     src = os.path.join(root, 'devices', 'board-info')
     dst = os.path.join(root, 'arena', 'board-info')
 
