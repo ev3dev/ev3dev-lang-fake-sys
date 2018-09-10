@@ -1,37 +1,17 @@
 """
-Patches for shutil to add copyfile and copytree methods if not implemented natively
+Patch for shutil to add copytree methods if not implemented natively
 """
 import os
 import shutil
 
-if not hasattr(shutil, "copyfile"):
-    def copyfile(src, dst):
-        with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-            shutil.copyfileobj(fsrc, fdst)
-
-    shutil.copyfile = copyfile
-
 if not hasattr(shutil, "copytree"):
     def copytree(src, dst):
-        names = os.listdir(src)
-
+        # Shim for copytree on micropython. There's no API in the micropython
+        # lib for chmod or equivalent, so we use the system cp util.
         os.makedirs(dst)
-        errors = []
-        for name in names:
-            srcname = os.path.join(src, name)
-            dstname = os.path.join(dst, name)
-            try:
-                if os.path.isdir(srcname):
-                    copytree(srcname, dstname)
-                else:
-                    copyfile(srcname, dstname)
-            except Error as err:
-                errors.extend(err.args[0])
-            except OSError as why:
-                errors.append((srcname, dstname, str(why)))
-        
-        if errors:
-            raise Error(errors)
+        res = os.system("cp -a '{0}/.' '{1}/'".format(src, dst))
+        if res != 0:
+            raise Exception("Error code while executing cp: {0}".format(res))
         return dst
 
     shutil.copytree = copytree
