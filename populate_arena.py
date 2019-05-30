@@ -23,9 +23,6 @@ def populate_arena(devices):
     src = os.path.join(root, 'devices', 'board-info')
     dst = os.path.join(root, 'arena', 'board-info')
 
-    if os.path.isdir(dst):
-        shutil.rmtree(dst)
-
     shutil.copytree(src, dst)
 
     for dev_type, index, address in devices:

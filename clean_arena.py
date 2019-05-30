@@ -2,6 +2,8 @@
 
 import os.path
 import shutil
+import micropython_patch
+
 
 def clean_arena():
     root = os.path.dirname(__file__)
